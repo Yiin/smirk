@@ -329,6 +329,13 @@ fn show_skintones(label: &gtk::Label, on_pick: &Rc<dyn Fn(&str)>) {
 
     let popover = gtk::Popover::new();
     popover.set_parent(label);
+    // Point at the glyph, not the label's padded box, so the popover sits closer.
+    popover.set_pointing_to(Some(&gdk::Rectangle::new(
+        0,
+        0,
+        label.width(),
+        (label.height() - 3).max(1),
+    )));
     for variant in tones {
         let btn = gtk::Button::builder().label(variant.as_str()).build();
         btn.add_css_class("emoji-cell");
